@@ -1,26 +1,73 @@
 @import "tailwindcss";
 
+@theme {
+    --color-accent: var(--accent);
+    --color-background-sidebar: var(--background-sidebar);
+    --color-base: var(--base);
+    --color-card: var(--card);
+    --color-foreground: var(--foreground);
+    --color-foreground-acc: var(--foreground-acc);
+    --color-foreground-primary: var(--foreground-primary);
+    --color-foreground-secondary: var(--foreground-secondary);
+    --color-input-background: var(--input-background);
+    --color-input-border: var(--input-border);
+    --color-input-ring: var(--input-ring);
+    --color-muted-background: var(--muted-background);
+    --color-muted-foreground: var(--muted-foreground);
+    --color-popover: var(--popover);
+    --color-primary: var(--primary);
+    --color-secondary: var(--secondary);
+}
+
+/* Light Mode */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+    --accent: #d6e4f0;
+    --background-sidebar: #dddfe2;
+    --base: #e8ebed;
+    --card: #ffffff;
+    --foreground: #333333;
+    --foreground-acc: #1e3a8a;
+    --foreground-primary: #ffffff;
+    --foreground-secondary: #ffffff;
+    --input-background: #f4f5f7;
+    --input-border: #cccccc;
+    --input-ring: #e05d38;
+    --muted-background: #f9fafb;
+    --muted-foreground: #6b7280;
+    --popover: #ffffff;
+    --primary: #df6035;
+    --secondary: #2f4b79;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+/* Dark Mode */
+.dark {
+    --accent: #2a3656;
+    --background--sidebar: #1f1f1f;
+    --base: #1a1a1a;
+    --card: #202020;
+    --foreground: #e5e5e5;
+    --foreground-acc: #bfdbfe;
+    --foreground-primary: #ffffff;
+    --foreground-secondary: #e5e5e5;
+    --input-background: #303030;
+    --input-border: #353535;
+    --input-ring: #e05d38;
+    --muted-background: #2a2a2a;
+    --muted-foreground: #808080;
+    --popover: #202020;
+    --primary: #df6035;
+    --secondary: #2f4b79;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+@layer base {
+    h1,
+    h2,
+    h3,
+    h4 {
+        font-family: "Roboto", sans-serif;
+    }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+    p {
+        font-family: "Inter", sans-serif;
+    }
 }
