@@ -11,3 +11,84 @@ generator client {
 datasource db {
   provider = "postgresql"
 }
+
+enum StatusInvoice {
+  DRAFT
+  SENT
+  OVERDUE
+  PAID
+}
+
+model User {
+  id              String  @id @default(uuid())
+  firstName       String
+  lastName        String
+  email           String  @unique
+  name            String?
+  address         String
+  phone           String?
+  defaultCurrency String
+  logo            String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+
+  clients  Client[]
+  invoices Invoice[]
+}
+
+model Client {
+  id           String  @id @default(uuid())
+  userId       String
+  businessName String
+  contactName  String
+  address      String
+  email        String
+  phone        String?
+
+  User User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime
+  invoices  Invoice[]
+}
+
+model Invoice {
+  id            String        @id @default(uuid())
+  number        Int           @unique
+  userId        String
+  clientId      String
+  clientName    String
+  clientEmail   String
+  clientAddress String
+  total         Int
+  currency      String
+  status        StatusInvoice @default(DRAFT)
+  dueDate       DateTime
+  issueDate     DateTime
+  notes         String
+  tax           Int
+  discount      Int
+  subTotal      Int
+
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  Client Client @relation(fields: [clientId], references: [id], onDelete: Cascade)
+  items  Item[]
+
+  createdAt DateTime
+  updatedAt DateTime
+}
+
+model Item {
+  id        String @id @default(uuid())
+  invoiceId String
+  detail    String
+  quantity  Int
+  price     Int
+  total     Int
+
+  invoice Invoice @relation(fields: [invoiceId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime
+}
