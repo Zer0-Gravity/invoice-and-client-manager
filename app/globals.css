@@ -65,9 +65,11 @@
     h3,
     h4 {
         font-family: "Roboto", sans-serif;
+        color: var(--foreground);
     }
 
     p {
         font-family: "Inter", sans-serif;
+        color: var(--foreground);
     }
 }
