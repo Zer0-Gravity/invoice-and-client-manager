@@ -42,7 +42,7 @@
 /* Dark Mode */
 .dark {
     --accent: #2a3656;
-    --background--sidebar: #1f1f1f;
+    --background-sidebar: #1f1f1f;
     --base: #1a1a1a;
     --card: #202020;
     --foreground: #e5e5e5;
@@ -65,11 +65,11 @@
     h3,
     h4 {
         font-family: "Roboto", sans-serif;
-        color: var(--foreground);
+        color: var(--color-foreground);
     }
 
     p {
         font-family: "Inter", sans-serif;
-        color: var(--foreground);
+        color: var(--color-foreground);
     }
 }

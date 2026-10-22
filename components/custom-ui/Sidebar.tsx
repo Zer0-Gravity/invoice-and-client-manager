@@ -3,7 +3,7 @@ import Link from "next/link";
 
 export default function Sidebar() {
     return (
-        <nav className="w-[240px] p-4">
+        <nav className="w-60 p-4">
             <header>
                 <h1 className="font-bold text-[25px]">MERCURIUS</h1>
             </header>
