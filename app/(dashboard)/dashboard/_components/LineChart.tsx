@@ -1,12 +1,10 @@
 "use client";
 
-import { Card } from "@/components/ui/card";
 import { ChartContainer } from "@/components/ui/chart";
 import {
     Area,
     AreaChart,
     CartesianGrid,
-    Line,
     Tooltip,
     XAxis,
     YAxis,

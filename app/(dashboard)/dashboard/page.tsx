@@ -65,7 +65,7 @@ export default async function Dashboard() {
                                 (key) => (
                                     <div
                                         key={key}
-                                        className="h-[60px] flex justify-between bg-base p-2 items-center rounded-md"
+                                        className="h-15 flex justify-between bg-base p-2 items-center rounded-md"
                                     >
                                         <div>
                                             <h1 className="font-bold">
