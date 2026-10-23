@@ -1,9 +1,14 @@
+"use client";
+
+import { useSidebar } from "@/utils/store";
 import { HandCoins, LayoutDashboard, UsersRound } from "lucide-react";
 import Link from "next/link";
 
 export default function Sidebar() {
+    const { isExpand } = useSidebar();
+
     return (
-        <nav className="w-60 p-4">
+        <nav className={`w-60 p-4 ${isExpand ? "block" : "hidden"}`}>
             <header>
                 <h1 className="font-bold text-[25px]">MERCURIUS</h1>
             </header>

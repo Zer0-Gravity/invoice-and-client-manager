@@ -7,12 +7,14 @@ import { Switch } from "../ui/switch";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
+import { useSidebar } from "@/utils/store";
 
 export default function Topbar() {
     const path = usePathname();
     const sanitizedTopbar = path.charAt(1).toUpperCase() + path.slice(2);
     const { setTheme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState<boolean>(false);
+    const { setExpand } = useSidebar();
 
     //Prevent any hydration caused by next theme
     useEffect(() => setMounted(true), []);
@@ -20,7 +22,10 @@ export default function Topbar() {
     return (
         <section className="flex justify-between p-2">
             <div className="flex gap-2 items-center">
-                <button className="text-muted-foreground p-2 hover:bg-accent rounded-lg hover:text-foreground-acc">
+                <button
+                    onClick={setExpand}
+                    className="text-muted-foreground p-2 hover:bg-accent rounded-lg hover:text-foreground-acc"
+                >
                     <Sidebar size={16} />
                 </button>
                 <div className="h-full w-1 rounded-full bg-muted-foreground" />
