@@ -11,13 +11,14 @@ import { useEffect, useState } from "react";
 export default function Topbar() {
     const path = usePathname();
     const sanitizedTopbar = path.charAt(1).toUpperCase() + path.slice(2);
-    const { theme, setTheme, resolvedTheme } = useTheme();
+    const { setTheme, resolvedTheme } = useTheme();
     const [mounted, setMounted] = useState<boolean>(false);
 
+    //Prevent any hydration caused by next theme
     useEffect(() => setMounted(true), []);
 
     return (
-        <section className="flex justify-between">
+        <section className="flex justify-between p-2">
             <div className="flex gap-2 items-center">
                 <button className="text-muted-foreground p-2 hover:bg-accent rounded-lg hover:text-foreground-acc">
                     <Sidebar size={16} />
