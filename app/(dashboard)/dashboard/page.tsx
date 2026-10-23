@@ -1,13 +1,11 @@
-import Topbar from "@/components/custom-ui/Topbar";
 import LineChartComp from "./_components/LineChart";
 import BarChartComp from "./_components/BarChart";
+import PageWrapper from "@/components/custom-ui/PageWrapper";
 
 export default async function Dashboard() {
     return (
-        <div className="flex flex-1 min-h-0 flex-col rounded-lg bg-base">
-            <Topbar />
-
-            <section className="p-5 flex h-full justify-center overflow-y-auto">
+        <PageWrapper>
+            <section className="p-5 flex h-full justify-center overflow-y-auto scroll-none">
                 <div className="dash-grid h-full">
                     <LineChartComp />
                     <BarChartComp />
@@ -83,6 +81,6 @@ export default async function Dashboard() {
                     </div>
                 </div>
             </section>
-        </div>
+        </PageWrapper>
     );
 }
