@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/set-state-in-effect */
 "use client";
 
-import { Sidebar, Sun } from "lucide-react";
+import { Sidebar } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Switch } from "../ui/switch";
 import { Avatar, AvatarFallback } from "../ui/avatar";

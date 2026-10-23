@@ -1,4 +1,3 @@
-import { set } from "better-auth";
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 
