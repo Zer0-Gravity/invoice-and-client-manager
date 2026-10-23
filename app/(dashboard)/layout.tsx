@@ -7,9 +7,11 @@ export default async function DashboardLayout({
     children: ReactNode;
 }) {
     return (
-        <main className="flex h-screen w-screen bg-background-sidebar">
+        <main className="flex h-screen w-screen bg-background-sidebar overflow-hidden">
             <Sidebar />
-            <div className="flex-1 p-4 h-full">{children}</div>
+            <div className="flex-1 flex flex-col p-4 min-h-0 min-w-0">
+                {children}
+            </div>
         </main>
     );
 }

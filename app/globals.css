@@ -73,3 +73,90 @@
         color: var(--color-foreground);
     }
 }
+
+.dash-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+        "line"
+        "line"
+        "pie"
+        "client"
+        "draft"
+        "revenue"
+        "attention"
+        "attention"
+        "top";
+    gap: 0.73rem;
+
+    .line-chart {
+        grid-area: line;
+        background-color: var(--color-card);
+    }
+
+    .pie {
+        grid-area: pie;
+        background-color: var(--color-card);
+    }
+
+    .client {
+        grid-area: client;
+        background-color: var(--color-card);
+        padding: 8px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .draft {
+        grid-area: draft;
+        background-color: var(--color-card);
+        padding: 8px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .revenue {
+        grid-area: revenue;
+        background-color: var(--color-card);
+        padding: 8px;
+        border-radius: 8px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .attention {
+        grid-area: attention;
+        background-color: var(--color-card);
+        padding: 8px;
+        border-radius: 8px;
+    }
+
+    .top {
+        grid-area: top;
+        background-color: var(--color-card);
+        padding: 8px;
+        border-radius: 8px;
+    }
+}
+
+.scroll-none::-webkit-scrollbar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .dash-grid {
+        display: grid;
+        grid-template-columns: 300px 300px 450px;
+        grid-template-rows: 280px 50px 1fr;
+        grid-template-areas:
+            "line line pie"
+            "client draft revenue"
+            "attention attention top";
+        gap: 0.73rem;
+    }
+}
