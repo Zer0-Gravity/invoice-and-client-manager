@@ -5,9 +5,45 @@ import InputField from "../_components/AuthInput";
 import AuthWrapper from "../_components/AuthWrapper";
 import PasswordField from "../_components/AuthPassword";
 import { FormProvider, useForm } from "react-hook-form";
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const validatorSchema = z
+    .object({
+        email: z
+            .string({
+                error: (issue) =>
+                    issue.input === undefined
+                        ? "Email is required"
+                        : "invalid input",
+            })
+            .email("Invalid email address"),
+        password: z
+            .string({
+                error: (issue) =>
+                    issue.input === undefined
+                        ? "Password is required"
+                        : "Invalid input",
+            })
+            .min(8, "Password must be 8 character length"),
+        repeatPassword: z.string({
+            error: (issue) =>
+                issue.input === undefined
+                    ? "Please repeat your password"
+                    : "invalid password",
+        }),
+    })
+    .refine((data) => data.password === data.repeatPassword, {
+        message: "Password don't match",
+        path: ["repeatPassword"],
+    });
 
 export default function Register() {
-    const methods = useForm();
+    const methods = useForm({ resolver: zodResolver(validatorSchema) });
+
+    const handleRegister = (data: any) => {
+        console.log(data);
+    };
 
     return (
         <AuthWrapper
@@ -16,7 +52,10 @@ export default function Register() {
             notice="Already have and account?"
         >
             <FormProvider {...methods}>
-                <form className="flex-1 flex flex-col gap-5 justify-center w-full">
+                <form
+                    onSubmit={methods.handleSubmit(handleRegister)}
+                    className="flex-1 flex flex-col gap-5 justify-center w-full"
+                >
                     <InputField
                         name="email"
                         icons={Mail}
