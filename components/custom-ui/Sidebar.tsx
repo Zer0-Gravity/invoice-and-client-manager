@@ -29,7 +29,7 @@ export default function Sidebar() {
                     <p className="font-medium">Invoices</p>
                 </Link>
                 <Link
-                    href={"/client"}
+                    href={"/clients"}
                     className="flex gap-3 items-center hover:bg-accent hover:text-foreground-acc p-2 rounded-lg"
                 >
                     <UsersRound size={18} />

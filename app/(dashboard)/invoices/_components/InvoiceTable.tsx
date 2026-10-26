@@ -5,7 +5,7 @@ import { features } from "@/utils/data-features";
 import { ColumnDef, RowData, useTable } from "@tanstack/react-table";
 
 interface InvoiceTableProps<TData extends RowData> {
-    columns: ColumnDef<typeof features, TData>[];
+    columns: ColumnDef<typeof features, TData, any>[];
     data: TData[];
 }
 
