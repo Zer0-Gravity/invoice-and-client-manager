@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { ReactNode } from "react";
+import { Toaster } from "react-hot-toast";
 
 interface AuthWrapperProps {
     children: ReactNode;
@@ -17,7 +18,9 @@ export default function AuthWrapper({
     return (
         <main className="p-5 md:p-20 flex sm:items-center h-screen">
             {/* Form Sections */}
-            <section className="sm:p-15 rounded-xl md:shadow-[0px_0px_5px_4px_rgba(0,0,0,0.1)] bg-card w-full sm:w-120 h-full sm:h-162.5 flex flex-col items-center gap-4">
+            <section className="sm:p-15 rounded-xl md:shadow-[0px_0px_5px_4px_rgba(0,0,0,0.1)] bg-card w-full sm:w-120 h-full sm:h-162.5 flex flex-col items-center gap-4 relative">
+                <Toaster />
+
                 <div className="space-y-5 w-full">
                     <div className="flex gap-2 md:items-center">
                         <div className="h-3 w-3 bg-primary rounded-full" />

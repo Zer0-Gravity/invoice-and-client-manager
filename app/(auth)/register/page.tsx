@@ -1,12 +1,17 @@
 "use client";
 
-import { Mail } from "lucide-react";
+import { Loader2, Mail } from "lucide-react";
 import InputField from "../_components/AuthInput";
 import AuthWrapper from "../_components/AuthWrapper";
 import PasswordField from "../_components/AuthPassword";
 import { FormProvider, useForm } from "react-hook-form";
-import z from "zod";
+import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { authClient } from "@/lib/auth-client";
+import { useState } from "react";
+import { AnimatePresence, motion } from "motion/react";
+import { toast } from "react-hot-toast";
+import LoadingState from "../_components/LoadingState";
 
 const validatorSchema = z
     .object({
@@ -38,11 +43,34 @@ const validatorSchema = z
         path: ["repeatPassword"],
     });
 
-export default function Register() {
-    const methods = useForm({ resolver: zodResolver(validatorSchema) });
+type registerData = z.infer<typeof validatorSchema>;
 
-    const handleRegister = (data: any) => {
-        console.log(data);
+export default function Register() {
+    const methods = useForm<registerData>({
+        resolver: zodResolver(validatorSchema),
+    });
+
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const handleRegister = async (data: registerData) => {
+        setIsLoading(true);
+
+        const { error } = await authClient.signUp.email({
+            name: data.email.split("@")[0],
+            email: data.email,
+            password: data.password,
+            callbackURL: "/onboarding",
+        });
+
+        if (error) {
+            setIsLoading(false);
+            toast.error(
+                error.message || error.statusText || "Internal server error",
+            );
+            return;
+        }
+
+        setIsLoading(false);
     };
 
     return (
@@ -51,6 +79,11 @@ export default function Register() {
             header="Register your account"
             notice="Already have and account?"
         >
+            <LoadingState
+                isLoading={isLoading}
+                text="Registering your account"
+            />
+
             <FormProvider {...methods}>
                 <form
                     onSubmit={methods.handleSubmit(handleRegister)}

@@ -26,10 +26,10 @@ const validatorSchema = z.object({
     }),
 });
 
-type registerData = z.infer<typeof validatorSchema>;
+type loginData = z.infer<typeof validatorSchema>;
 
 export default function Login() {
-    const methods = useForm<registerData>({
+    const methods = useForm<loginData>({
         resolver: zodResolver(validatorSchema),
     });
 
@@ -37,7 +37,7 @@ export default function Login() {
         console.log(data);
     };
 
-    return (    
+    return (
         <AuthWrapper
             link="register"
             header="Welcome Back"
