@@ -1,10 +1,8 @@
+"use client";
+
 import { Checkbox } from "@/components/ui/checkbox";
-import {
-    cellSelectionFeature,
-    createColumnHelper,
-    rowSelectionFeature,
-    tableFeatures,
-} from "@tanstack/react-table";
+import { features } from "@/utils/data-features";
+import { createColumnHelper } from "@tanstack/react-table";
 
 interface ClientColumnProps {
     invoiceId: string;
@@ -15,10 +13,9 @@ interface ClientColumnProps {
     status: string;
 }
 
-const _features = tableFeatures({ rowSelectionFeature, cellSelectionFeature });
-const columnHelper = createColumnHelper<typeof _features, ClientColumnProps>();
+const columnHelper = createColumnHelper<typeof features, ClientColumnProps>();
 
-const columns = columnHelper.columns([
+export const columns = columnHelper.columns([
     columnHelper.display({
         id: "checkbox",
         header: ({ table }) => (
@@ -57,5 +54,9 @@ const columns = columnHelper.columns([
     }),
     columnHelper.accessor("status", {
         header: () => <p>Status</p>,
+    }),
+    columnHelper.display({
+        id: "actions-button",
+        header: () => <p>Actions</p>,
     }),
 ]);

@@ -1,12 +1,15 @@
 import PageWrapper from "@/components/custom-ui/PageWrapper";
 import { Plus, Search } from "lucide-react";
+import InvoiceTable from "./_components/InvoiceTable";
+import { columns } from "./_components/columns";
 
 export default async function Invoices() {
     const filter = ["Paid", "Draft", "Sent", "Overdue"];
+    const data: any = [];
 
     return (
         <PageWrapper>
-            <div className="p-5 w-full self-center h-full">
+            <div className="p-5 w-full self-center h-full flex flex-col gap-3">
                 <section className="flex justify-between">
                     <div className="flex gap-2">
                         {filter.map((item, index) => (
@@ -45,6 +48,7 @@ export default async function Invoices() {
                         </button>
                     </div>
                 </section>
+                <InvoiceTable columns={columns} data={data} />
             </div>
         </PageWrapper>
     );

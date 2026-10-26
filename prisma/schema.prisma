@@ -25,13 +25,14 @@ model User {
   lastName        String
   email           String  @unique
   name            String?
-  address         String
+  businessName    String?
+  address         String?
   phone           String?
-  defaultCurrency String
+  defaultCurrency String?
   logo            String?
 
   createdAt DateTime @default(now())
-  updatedAt DateTime
+  updatedAt DateTime @updatedAt
 
   clients       Client[]
   invoices      Invoice[]
@@ -47,8 +48,8 @@ model Client {
   id           String  @id @default(uuid())
   userId       String
   businessName String
-  contactName  String
-  address      String
+  contactName  String?
+  address      String?
   email        String
   phone        String?
 
@@ -75,8 +76,8 @@ model Invoice {
   dueDate       DateTime
   issueDate     DateTime
   notes         String?
-  tax           Int
-  discount      Int
+  tax           Int           @default(0)
+  discount      Int           @default(0)
   subTotal      Int
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)

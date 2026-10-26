@@ -1,0 +1,11 @@
+-- AlterTable
+ALTER TABLE "Client" ALTER COLUMN "contactName" DROP NOT NULL,
+ALTER COLUMN "address" DROP NOT NULL;
+
+-- AlterTable
+ALTER TABLE "Invoice" ALTER COLUMN "tax" SET DEFAULT 0,
+ALTER COLUMN "discount" SET DEFAULT 0;
+
+-- AlterTable
+ALTER TABLE "user" ALTER COLUMN "address" DROP NOT NULL,
+ALTER COLUMN "defaultCurrency" DROP NOT NULL;
