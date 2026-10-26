@@ -5,18 +5,49 @@ import InputField from "../_components/AuthInput";
 import PasswordField from "../_components/AuthPassword";
 import AuthWrapper from "../_components/AuthWrapper";
 import { FormProvider, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+
+const validatorSchema = z.object({
+    email: z
+        .string({
+            error: (issue) =>
+                issue.input === undefined
+                    ? "Email is required!"
+                    : "Invalid text input",
+        })
+        .email("Invalid email address")
+        .min(1, "Email is required"),
+    password: z.string({
+        error: (issue) =>
+            issue.input === undefined
+                ? "Password is required"
+                : "Invalid input",
+    }),
+});
+
+type registerData = z.infer<typeof validatorSchema>;
 
 export default function Login() {
-    const methods = useForm();
+    const methods = useForm<registerData>({
+        resolver: zodResolver(validatorSchema),
+    });
 
-    return (
+    const handleRegister = (data: any) => {
+        console.log(data);
+    };
+
+    return (    
         <AuthWrapper
             link="register"
             header="Welcome Back"
             notice="Don't have an account?"
         >
             <FormProvider {...methods}>
-                <form className="w-full flex-1 flex flex-col gap-5">
+                <form
+                    onSubmit={methods.handleSubmit(handleRegister)}
+                    className="w-full flex-1 flex flex-col gap-5"
+                >
                     <InputField
                         name="email"
                         icons={Mail}
