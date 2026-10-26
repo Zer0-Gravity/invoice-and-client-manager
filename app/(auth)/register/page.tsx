@@ -1,6 +1,6 @@
 "use client";
 
-import { Loader2, Mail } from "lucide-react";
+import { Mail } from "lucide-react";
 import InputField from "../_components/AuthInput";
 import AuthWrapper from "../_components/AuthWrapper";
 import PasswordField from "../_components/AuthPassword";
@@ -9,7 +9,6 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { authClient } from "@/lib/auth-client";
 import { useState } from "react";
-import { AnimatePresence, motion } from "motion/react";
 import { toast } from "react-hot-toast";
 import LoadingState from "../_components/LoadingState";
 

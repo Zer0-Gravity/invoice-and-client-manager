@@ -7,6 +7,10 @@ import AuthWrapper from "../_components/AuthWrapper";
 import { FormProvider, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { authClient } from "@/lib/auth-client";
+import { useState } from "react";
+import toast from "react-hot-toast";
+import LoadingState from "../_components/LoadingState";
 
 const validatorSchema = z.object({
     email: z
@@ -33,8 +37,25 @@ export default function Login() {
         resolver: zodResolver(validatorSchema),
     });
 
-    const handleRegister = (data: any) => {
-        console.log(data);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const handleRegister = async (data: loginData) => {
+        setIsLoading(true);
+        const { error } = await authClient.signIn.email({
+            email: data.email,
+            password: data.password,
+            callbackURL: "/dashboard",
+        });
+
+        if (error) {
+            setIsLoading(false);
+            toast.error(
+                error.message || error.statusText || "Internal server error",
+            );
+            return;
+        }
+
+        setIsLoading(false);
     };
 
     return (
@@ -43,6 +64,8 @@ export default function Login() {
             header="Welcome Back"
             notice="Don't have an account?"
         >
+            <LoadingState isLoading={isLoading} text="Logging In..." />
+
             <FormProvider {...methods}>
                 <form
                     onSubmit={methods.handleSubmit(handleRegister)}
