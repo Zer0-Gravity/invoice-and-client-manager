@@ -7,7 +7,6 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { InputBoarding } from "./_components/InputBoarding";
 import { useState } from "react";
 import { updateUser } from "./actions";
-import toast from "react-hot-toast";
 
 const validatorSchema = z.object({
     firstName: z.string({
