@@ -1,14 +1,54 @@
-import {
-    Select,
-    SelectContent,
-    SelectGroup,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
-import { currency } from "@/utils/json";
+"use client";
+
+import { FormProvider, useForm } from "react-hook-form";
+import SelectCurrency from "./_components/SelectButton";
+import z from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { InputBoarding } from "./_components/InputBoarding";
+import { useState } from "react";
+import { updateUser } from "./actions";
+import toast from "react-hot-toast";
+
+const validatorSchema = z.object({
+    firstName: z.string({
+        error: (issue) =>
+            issue.input === undefined
+                ? "First name is required!"
+                : "invalid input",
+    }),
+    lastName: z.string({
+        error: (issue) =>
+            issue.input === undefined
+                ? "Last name is required!"
+                : "Invalid input",
+    }),
+    businessName: z.string().optional(),
+    currency: z.string().optional(),
+    phone: z.string().optional(),
+    address: z.string().optional(),
+});
+
+export type boardingData = z.infer<typeof validatorSchema>;
 
 export default function BoardingPage() {
+    const methods = useForm<boardingData>({
+        resolver: zodResolver(validatorSchema),
+    });
+
+    const [] = useState<boolean>(false);
+
+    const handleBoarding = async (data: boardingData) => {
+        try {
+            await updateUser(data);
+        } catch (error) {
+            if (error instanceof Error) {
+                console.log(error.message);
+            } else {
+                console.log(String(error));
+            }
+        }
+    };
+
     return (
         <main className="h-screen p-5 md:px-20 flex flex-col justify-center">
             <section className="flex-1 flex items-center justify-center border">
@@ -25,85 +65,63 @@ export default function BoardingPage() {
                         later in your account setting
                     </p>
                 </div>
-                <form className="flex flex-col gap-3">
-                    <div className="flex flex-col md:flex-row gap-3">
-                        <div className="flex flex-col gap-3 md:w-145">
-                            <div className="flex flex-col md:flex-row gap-2 w-full">
-                                <InputBoarding
-                                    label="First Name"
-                                    placeholder="e.g John"
-                                />
-                                <InputBoarding
-                                    label="Last Name"
-                                    placeholder="e.g Doe"
-                                />
-                            </div>
-                            <InputBoarding
-                                label="Business Name"
-                                placeholder="e.g Acme Corp"
-                            />
 
-                            <div className="flex flex-col gap-2">
-                                <p className="font-bold">Default Currency</p>
-                                <Select>
-                                    <SelectTrigger className="border-b border-t-0 border-l-0 border-r-0 ring-none rounded-none border-input-border focus:border-foreground w-full p-2">
-                                        <SelectValue placeholder="USD, EUR" />
-                                    </SelectTrigger>
-                                    <SelectContent className="bg-card">
-                                        <SelectGroup>
-                                            {currency.map((items, index) => (
-                                                <SelectItem
-                                                    key={index}
-                                                    value={items.value}
-                                                    className="data-highlighted:bg-secondary data-highlighted:text-foreground-secondary data-selected:bg-secondary data-selected:text-foreground-secondary text-muted-foreground"
-                                                >
-                                                    {items.label}
-                                                </SelectItem>
-                                            ))}
-                                        </SelectGroup>
-                                    </SelectContent>
-                                </Select>
-                            </div>
-                        </div>
-
-                        <div className="flex flex-col gap-3 md:w-145">
-                            <InputBoarding
-                                label="Phone"
-                                placeholder="1-345-435"
-                            />
-                            <InputBoarding
-                                label="Address"
-                                placeholder="Mountain street, No.78"
-                            />
-                        </div>
-                    </div>
-
-                    <button
-                        type="submit"
-                        className="bg-primary text-foreground-primary p-2 rounded-md w-full md:w-37.5 h-10 font-medium"
+                <FormProvider {...methods}>
+                    <form
+                        onSubmit={methods.handleSubmit(handleBoarding)}
+                        className="flex flex-col gap-3"
                     >
-                        Continue
-                    </button>
-                </form>
+                        <div className="flex flex-col md:flex-row gap-3">
+                            <div className="flex flex-col gap-3 md:w-145">
+                                <div className="flex flex-col md:flex-row gap-2 w-full">
+                                    <InputBoarding
+                                        name="firstName"
+                                        label="First Name"
+                                        placeholder="e.g John"
+                                    />
+                                    <InputBoarding
+                                        name="lastName"
+                                        label="Last Name"
+                                        placeholder="e.g Doe"
+                                    />
+                                </div>
+                                <InputBoarding
+                                    name="businessName"
+                                    label="Business Name"
+                                    placeholder="e.g Acme Corp"
+                                />
+
+                                <div className="flex flex-col gap-2">
+                                    <p className="font-bold">
+                                        Default Currency
+                                    </p>
+                                    <SelectCurrency />
+                                </div>
+                            </div>
+
+                            <div className="flex flex-col gap-3 md:w-145">
+                                <InputBoarding
+                                    name="phone"
+                                    label="Phone"
+                                    placeholder="1-345-435"
+                                />
+                                <InputBoarding
+                                    name="address"
+                                    label="Address"
+                                    placeholder="Mountain street, No.78"
+                                />
+                            </div>
+                        </div>
+
+                        <button
+                            type="submit"
+                            className="bg-primary text-foreground-primary p-2 rounded-md w-full md:w-37.5 h-10 font-medium active:scale-98"
+                        >
+                            Continue
+                        </button>
+                    </form>
+                </FormProvider>
             </section>
         </main>
-    );
-}
-
-interface InputBoardingProps {
-    label: string;
-    placeholder: string;
-}
-
-function InputBoarding({ label, placeholder }: InputBoardingProps) {
-    return (
-        <div className="w-full flex flex-col gap-2">
-            <p className="font-bold">{label}</p>
-            <input
-                type="text"
-                placeholder={placeholder}
-                className="outline-none border-b border-input-border p-2 focus:border-foreground w-full"
-            />
-        </div>
     );
 }

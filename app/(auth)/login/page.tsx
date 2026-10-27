@@ -39,7 +39,7 @@ export default function Login() {
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleRegister = async (data: loginData) => {
+    const handleLogin = async (data: loginData) => {
         setIsLoading(true);
         const { error } = await authClient.signIn.email({
             email: data.email,
@@ -68,7 +68,7 @@ export default function Login() {
 
             <FormProvider {...methods}>
                 <form
-                    onSubmit={methods.handleSubmit(handleRegister)}
+                    onSubmit={methods.handleSubmit(handleLogin)}
                     className="w-full flex-1 flex flex-col gap-5"
                 >
                     <InputField
