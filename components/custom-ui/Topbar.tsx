@@ -8,6 +8,7 @@ import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useSidebar } from "@/utils/store";
+import AccountProfile from "./AccountProfile";
 
 export default function Topbar() {
     const path = usePathname();
@@ -35,11 +36,7 @@ export default function Topbar() {
             </div>
 
             <div className="flex gap-2 items-center">
-                <Avatar className="bg-secondary size-6">
-                    <AvatarFallback className="text-foreground-secondary text-[10px]">
-                        US
-                    </AvatarFallback>
-                </Avatar>
+                <AccountProfile />
                 <Switch
                     checked={mounted && resolvedTheme === "dark"}
                     onCheckedChange={() =>
