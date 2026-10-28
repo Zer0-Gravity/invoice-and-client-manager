@@ -4,7 +4,6 @@
 import { Sidebar } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { Switch } from "../ui/switch";
-import { Avatar, AvatarFallback } from "../ui/avatar";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useSidebar } from "@/utils/store";
