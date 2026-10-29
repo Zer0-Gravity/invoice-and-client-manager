@@ -39,7 +39,7 @@ export default function SelectInput({
                             value={field.value}
                             onValueChange={(val) => field.onChange(val ?? "")}
                         >
-                            <SelectTrigger className="p-2 h-10! bg-input-background border border-input-border rounded-md">
+                            <SelectTrigger className="p-2 h-10! w-full bg-input-background border border-input-border rounded-md">
                                 <SelectValue placeholder={placeholder} />
                             </SelectTrigger>
                             <SelectContent>

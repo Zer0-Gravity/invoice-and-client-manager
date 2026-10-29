@@ -29,9 +29,7 @@ export default function PasswordField({
                                 type={isShow ? "text" : "password"}
                                 placeholder={placeholder}
                                 value={field.value}
-                                onChange={(e) =>
-                                    field.onChange(e.target.value ?? "")
-                                }
+                                onChange={field.onChange}
                                 onBlur={field.onBlur}
                                 className="h-10 p-2 bg-input-background border border-input-border outline-input-ring rounded-md text-[14px] w-full"
                             />
