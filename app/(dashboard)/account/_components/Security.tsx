@@ -5,8 +5,13 @@ export default function Security() {
     return (
         <div className="space-y-3">
             <form className="bg-card p-5 rounded-lg space-y-3">
-                <h1 className="font-bold">Change Password</h1>
-                <div className="space-y-3 p-4 border rounded-md border-muted-foreground">
+                <div className="p-2">
+                    <h1 className="font-bold">Change Password</h1>
+                    <p className="text-[14px] text-muted-foreground">
+                        Change your current password
+                    </p>
+                </div>
+                <div className="space-y-3 p-4 border rounded-md border-muted-background">
                     <PasswordField
                         name="password"
                         label="Current Password"

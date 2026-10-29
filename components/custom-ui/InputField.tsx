@@ -28,7 +28,7 @@ export default function InputField({
                             onBlur={field.onBlur}
                             value={field.value}
                             onChange={field.onChange}
-                            className="h-10 p-2 bg-input-background border border-input-border outline-input-ring rounded-md text-[14px]"
+                            className="h-10 p-2 bg-input-background border border-input-border outline-input-ring rounded-md text-[14px] w-full"
                         />
                     </div>
                 )}
