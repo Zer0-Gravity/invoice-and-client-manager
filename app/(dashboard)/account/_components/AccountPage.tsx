@@ -5,6 +5,7 @@ import { useState } from "react";
 import BusinessInfo from "./BusinessInfo";
 import PersonalInfo from "./PersonalInfo";
 import Security from "./Security";
+import { User } from "@/app/generated/prisma/client";
 
 const tabs = [
     { address: "business-info", label: "Business Info" },
@@ -12,7 +13,9 @@ const tabs = [
     { address: "security", label: "Security" },
 ];
 
-export default function AccountPage() {
+export type UserData = User;
+
+export default function AccountPage({ data }: { data: UserData }) {
     const [activeTab, SetActiveTab] = useState<string>("business-info");
 
     return (
@@ -41,8 +44,8 @@ export default function AccountPage() {
             </header>
 
             <section>
-                {activeTab === "business-info" && <BusinessInfo />}
-                {activeTab === "personal-info" && <PersonalInfo />}
+                {activeTab === "business-info" && <BusinessInfo data={data} />}
+                {activeTab === "personal-info" && <PersonalInfo data={data} />}
                 {activeTab === "security" && <Security />}
             </section>
         </div>

@@ -2,28 +2,20 @@
 
 import InputField from "@/components/custom-ui/InputField";
 import SelectInput from "@/components/custom-ui/SelectInput";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { authClient } from "@/lib/auth-client";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { currency } from "@/utils/json";
-import { Loader2 } from "lucide-react";
+
 import { Controller, FormProvider, useForm } from "react-hook-form";
+import { UserData } from "./AccountPage";
 
-export default function BusinessInfo() {
-    const methods = useForm();
-    const { data: userData, isPending, error } = authClient.useSession();
-
-    if (error) {
-        return <p>Login required</p>;
-    }
-
-    if (isPending) {
-        return (
-            <div className="p-2 w-full flex gap-2 items-center justify-center bg-card">
-                <Loader2 className="animate-spin" size={16} />
-                <p>Loading...</p>
-            </div>
-        );
-    }
+export default function BusinessInfo({ data }: { data: UserData }) {
+    const methods = useForm({
+        defaultValues: {
+            businessName: data.businessName ?? "",
+            url: data.image ?? "",
+            currency: data.defaultCurrency ?? "",
+        },
+    });
 
     return (
         <FormProvider {...methods}>
@@ -37,9 +29,11 @@ export default function BusinessInfo() {
 
                 <div className="flex gap-4">
                     <Avatar className="rounded-md size-30">
-                        <AvatarImage src={userData?.user.image ?? ""} />
-                        <AvatarFallback className="text-foreground text-4xl font-bold bg-secondary">
-                            {userData?.user.name.slice(0, 2).toUpperCase()}
+                        <AvatarFallback className="text-foreground-secondary text-4xl font-bold bg-secondary">
+                            {data.firstName && data.lastName
+                                ? data.firstName[0].toUpperCase() +
+                                  data.lastName[0].toUpperCase()
+                                : data.email.slice(0, 2).toUpperCase()}
                         </AvatarFallback>
                     </Avatar>
                     <Controller

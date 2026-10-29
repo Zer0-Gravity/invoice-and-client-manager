@@ -1,8 +1,17 @@
 import InputField from "@/components/custom-ui/InputField";
 import { FormProvider, useForm } from "react-hook-form";
+import { UserData } from "./AccountPage";
 
-export default function PersonalInfo() {
-    const methods = useForm();
+export default function PersonalInfo({ data }: { data: UserData }) {
+    const methods = useForm({
+        defaultValues: {
+            firstName: data.firstName ?? "",
+            lastName: data.lastName ?? "",
+            email: data.email ?? "",
+            phone: data.phone ?? "",
+            address: data.address ?? "",
+        },
+    });
 
     return (
         <FormProvider {...methods}>
