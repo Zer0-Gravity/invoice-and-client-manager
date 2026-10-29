@@ -1,4 +1,4 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 interface InputFieldProps {
     name: string;
@@ -11,7 +11,7 @@ export default function InputField({
     placeholder,
     label,
 }: InputFieldProps) {
-    const { control } = useForm();
+    const { control } = useFormContext();
 
     return (
         <>

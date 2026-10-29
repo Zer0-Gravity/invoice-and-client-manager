@@ -1,6 +1,6 @@
 import { Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 
 interface PasswordFieldProps {
     name: string;
@@ -13,7 +13,7 @@ export default function PasswordField({
     label,
     placeholder,
 }: PasswordFieldProps) {
-    const { control } = useForm();
+    const { control } = useFormContext();
     const [isShow, setIsShow] = useState<boolean>(false);
 
     return (
