@@ -61,7 +61,10 @@ export default function PersonalInfo({ data }: { data: UserData }) {
                     />
                 </div>
                 <div className="flex justify-end">
-                    <button className="p-2 bg-primary rounded-md text-[14px]">
+                    <button
+                        type="submit"
+                        className="p-2 bg-primary rounded-md text-[14px]"
+                    >
                         Save Change
                     </button>
                 </div>

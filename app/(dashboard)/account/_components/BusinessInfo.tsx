@@ -71,6 +71,14 @@ export default function BusinessInfo({ data }: { data: UserData }) {
                         label="Default currency"
                     />
                 </div>
+                <div className="flex justify-end">
+                    <button
+                        type="submit"
+                        className="p-2 rounded-md bg-primary text-foreground-primary text-[14px]"
+                    >
+                        Save Profile
+                    </button>
+                </div>
             </form>
         </FormProvider>
     );
