@@ -1,14 +1,44 @@
 import PasswordField from "@/components/custom-ui/PasswordField";
-import { Trash } from "lucide-react";
+import { authClient } from "@/lib/auth-client";
+import { Loader2, Trash } from "lucide-react";
+import { useState } from "react";
 import { FormProvider, useForm } from "react-hook-form";
+import toast from "react-hot-toast";
 
 export default function Security() {
-    const methods = useForm();
+    const methods = useForm({
+        defaultValues: { currentPassword: "", newPassword: "" },
+    });
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const handleUpdatePassword = async (data: any) => {
+        setIsLoading(true);
+
+        const { error } = await authClient.changePassword({
+            newPassword: data.newPassword,
+            currentPassword: data.currentPassword,
+            revokeOtherSessions: true,
+        });
+
+        if (error) {
+            setIsLoading(false);
+            toast.error(
+                error.message || error.statusText || "Interval server error",
+            );
+            return;
+        }
+
+        toast.success("Password change success");
+        setIsLoading(false);
+    };
 
     return (
         <div className="space-y-3">
             <FormProvider {...methods}>
-                <form className="bg-card p-5 rounded-lg space-y-3">
+                <form
+                    onSubmit={methods.handleSubmit(handleUpdatePassword)}
+                    className="bg-card p-5 rounded-lg space-y-3"
+                >
                     <div className="p-2">
                         <h1 className="font-bold">Change Password</h1>
                         <p className="text-[14px] text-muted-foreground">
@@ -17,7 +47,7 @@ export default function Security() {
                     </div>
                     <div className="space-y-3 p-4 border rounded-md border-muted-background">
                         <PasswordField
-                            name="password"
+                            name="currentPassword"
                             label="Current Password"
                             placeholder="Current password"
                         />
@@ -30,9 +60,20 @@ export default function Security() {
                         <div className="flex justify-end">
                             <button
                                 type="submit"
-                                className="p-2 rounded-md bg-primary text-foreground-primary text-[14px]"
+                                className="p-2 rounded-md bg-primary text-[14px]"
                             >
-                                Change Password
+                                {isLoading ? (
+                                    <div className="flex gap-2 items-center">
+                                        <Loader2 size={16} />
+                                        <p className="text-foreground-primary">
+                                            Loading
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <p className="text-foreground-primary">
+                                        Change Password
+                                    </p>
+                                )}
                             </button>
                         </div>
                     </div>
