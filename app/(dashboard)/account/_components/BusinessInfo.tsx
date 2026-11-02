@@ -2,15 +2,16 @@
 
 import InputField from "@/components/custom-ui/InputField";
 import SelectInput from "@/components/custom-ui/SelectInput";
-import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { currency } from "@/utils/json";
 
-import { Controller, FormProvider, useForm } from "react-hook-form";
+import { Controller, FormProvider, useForm, useWatch } from "react-hook-form";
 import { UserData } from "./AccountPage";
 import { useState } from "react";
 import { updateBusiness } from "../actions";
 import toast from "react-hot-toast";
 import { Camera, Loader2 } from "lucide-react";
+import { uploadAvatar } from "@/utils/helpers";
 
 export interface BusinessInfoProps {
     image: string;
@@ -28,6 +29,12 @@ export default function BusinessInfo({ data }: { data: UserData }) {
     });
 
     const [isLoading, setIsLoading] = useState<boolean>(false);
+    const [isUploading, setIsUploading] = useState<boolean>(false);
+
+    const image = useWatch({
+        control: methods.control,
+        name: "image",
+    });
 
     const handleUpdateBusiness = async (data: BusinessInfoProps) => {
         setIsLoading(true);
@@ -59,6 +66,7 @@ export default function BusinessInfo({ data }: { data: UserData }) {
 
                 <label className="group block rounded-md size-30 relative">
                     <Avatar className="h-full w-full">
+                        <AvatarImage src={image} />
                         <AvatarFallback className="text-foreground-secondary text-4xl font-bold bg-secondary">
                             {data.firstName && data.lastName
                                 ? data.firstName[0].toUpperCase() +
@@ -72,11 +80,54 @@ export default function BusinessInfo({ data }: { data: UserData }) {
                         <p>Change</p>
                     </div>
 
-                    <input
-                        type="file"
-                        name="upfile"
-                        className="absolute inset-0 cursor-pointer h-full w-full opacity-0 pointer-events-none z-10 "
-                        accept="/image"
+                    {isUploading && (
+                        <div className="absolute inset-0 h-full w-full rounded-full bg-muted-background/50 flex justify-center items-center flex-col">
+                            <Loader2 size={30} className="animate-spin" />
+                            <p>Uploading</p>
+                        </div>
+                    )}
+
+                    <Controller
+                        name="image"
+                        control={methods.control}
+                        render={({ field }) => (
+                            <>
+                                <input
+                                    type="file"
+                                    className="absolute inset-0 cursor-pointer h-full w-full opacity-0 pointer-events-none z-10 "
+                                    disabled={isUploading}
+                                    accept="image/*"
+                                    onChange={async (e) => {
+                                        const file = e.target.files?.[0];
+
+                                        if (!file) return;
+
+                                        if (file.size > 2 * 1024 * 1024) {
+                                            toast.error(
+                                                "Image must be under 2 MB",
+                                            );
+                                            return;
+                                        }
+
+                                        try {
+                                            setIsUploading(true);
+                                            field.onChange(
+                                                await uploadAvatar(file),
+                                            );
+                                        } catch (error) {
+                                            if (error instanceof Error) {
+                                                toast.error(error.message);
+                                            } else {
+                                                toast.error(String(error));
+                                            }
+                                        } finally {
+                                            setIsUploading(false);
+                                            e.target.value = "";
+                                        }
+                                    }}
+                                />
+                            </>
+                        )}
                     />
                 </label>
 
