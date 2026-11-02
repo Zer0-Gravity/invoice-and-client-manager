@@ -10,7 +10,7 @@ import { UserData } from "./AccountPage";
 import { useState } from "react";
 import { updateBusiness } from "../actions";
 import toast from "react-hot-toast";
-import { Loader2 } from "lucide-react";
+import { Camera, Loader2 } from "lucide-react";
 
 export interface BusinessInfoProps {
     image: string;
@@ -57,8 +57,8 @@ export default function BusinessInfo({ data }: { data: UserData }) {
                     </p>
                 </div>
 
-                <div className="flex gap-4">
-                    <Avatar className="rounded-md size-30">
+                <div className="rounded-md size-30 relative">
+                    <Avatar className="h-full w-full">
                         <AvatarFallback className="text-foreground-secondary text-4xl font-bold bg-secondary">
                             {data.firstName && data.lastName
                                 ? data.firstName[0].toUpperCase() +
@@ -66,24 +66,16 @@ export default function BusinessInfo({ data }: { data: UserData }) {
                                 : data.email.slice(0, 2).toUpperCase()}
                         </AvatarFallback>
                     </Avatar>
-                    <Controller
-                        name="image"
-                        control={methods.control}
-                        render={({ field }) => (
-                            <div>
-                                <p className="text-[14px] font-semibold">
-                                    Upload logo
-                                </p>
-                                <input
-                                    type="file"
-                                    name="upfile"
-                                    value={field.value}
-                                    onChange={field.onChange}
-                                    className="bg-input-background border border-input-border rounded-md p-2 text-[14px]"
-                                />
-                            </div>
-                        )}
+                    <input
+                        type="file"
+                        name="upfile"
+                        className="absolute inset-0 cursor-pointer h-full w-full opacity-0"
+                        accept="/image"
                     />
+                    <div className="absolute inset-0 h-full w-full bg-muted-background/65 flex justify-center items-center rounded-full opacity-0 hover:opacity-100 transition-all flex-col">
+                        <Camera size={30} className="text-foreground" />
+                        <p>Change</p>
+                    </div>
                 </div>
 
                 <div className="border border-muted-background p-4 rounded-lg">
