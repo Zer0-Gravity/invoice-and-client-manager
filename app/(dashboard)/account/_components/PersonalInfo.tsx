@@ -1,6 +1,18 @@
 import InputField from "@/components/custom-ui/InputField";
 import { FormProvider, useForm } from "react-hook-form";
 import { UserData } from "./AccountPage";
+import toast from "react-hot-toast";
+import { updatePersonal } from "../actions";
+import { useState } from "react";
+import { Loader2 } from "lucide-react";
+
+export interface PersonalProps {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    address: string;
+}
 
 export default function PersonalInfo({ data }: { data: UserData }) {
     const methods = useForm({
@@ -13,9 +25,29 @@ export default function PersonalInfo({ data }: { data: UserData }) {
         },
     });
 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
+
+    const handleUpdate = async (data: PersonalProps) => {
+        try {
+            setIsLoading(true);
+            await updatePersonal(data);
+        } catch (error) {
+            if (error instanceof Error) {
+                toast.error(error.message);
+            } else {
+                console.log(String(error));
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
     return (
         <FormProvider {...methods}>
-            <form className="space-y-3 bg-card p-4 rounded-lg">
+            <form
+                onSubmit={methods.handleSubmit(handleUpdate)}
+                className="space-y-3 bg-card p-4 rounded-lg"
+            >
                 <div className="p-2">
                     <h1 className="font-bold">Update Profile</h1>
                     <p className="text-[14px] text-muted-foreground">
@@ -65,7 +97,21 @@ export default function PersonalInfo({ data }: { data: UserData }) {
                         type="submit"
                         className="p-2 bg-primary rounded-md text-[14px]"
                     >
-                        Save Change
+                        {isLoading ? (
+                            <div className="flex items-center gap-2">
+                                <Loader2
+                                    size={14}
+                                    className="text-foreground-primary"
+                                />
+                                <p className="text-foreground-primary text-[14px]">
+                                    Saving
+                                </p>
+                            </div>
+                        ) : (
+                            <p className="text-foreground-primary">
+                                Save Change
+                            </p>
+                        )}
                     </button>
                 </div>
             </form>
