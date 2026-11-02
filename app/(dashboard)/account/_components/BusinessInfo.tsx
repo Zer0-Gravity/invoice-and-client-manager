@@ -57,7 +57,7 @@ export default function BusinessInfo({ data }: { data: UserData }) {
                     </p>
                 </div>
 
-                <div className="rounded-md size-30 relative">
+                <label className="group block rounded-md size-30 relative">
                     <Avatar className="h-full w-full">
                         <AvatarFallback className="text-foreground-secondary text-4xl font-bold bg-secondary">
                             {data.firstName && data.lastName
@@ -66,17 +66,19 @@ export default function BusinessInfo({ data }: { data: UserData }) {
                                 : data.email.slice(0, 2).toUpperCase()}
                         </AvatarFallback>
                     </Avatar>
-                    <input
-                        type="file"
-                        name="upfile"
-                        className="absolute inset-0 cursor-pointer h-full w-full opacity-0"
-                        accept="/image"
-                    />
-                    <div className="absolute inset-0 h-full w-full bg-muted-background/65 flex justify-center items-center rounded-full opacity-0 hover:opacity-100 transition-all flex-col">
+
+                    <div className="absolute pointer-events-none inset-0 h-full w-full bg-muted-background/65 flex justify-center items-center rounded-full opacity-0 group-hover:opacity-100 transition-all flex-col">
                         <Camera size={30} className="text-foreground" />
                         <p>Change</p>
                     </div>
-                </div>
+
+                    <input
+                        type="file"
+                        name="upfile"
+                        className="absolute inset-0 cursor-pointer h-full w-full opacity-0 pointer-events-none z-10 "
+                        accept="/image"
+                    />
+                </label>
 
                 <div className="border border-muted-background p-4 rounded-lg">
                     <InputField
