@@ -1,4 +1,4 @@
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useFormContext } from "react-hook-form";
 import {
     Select,
     SelectContent,
@@ -26,7 +26,7 @@ export default function SelectInput({
     items,
     label,
 }: SelectInputProp) {
-    const { control } = useForm();
+    const { control } = useFormContext();
     return (
         <>
             <Controller
